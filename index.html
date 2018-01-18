@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link type="text/css" href="main.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section id="galaxy" class="section">
+        <img id="sw" src="sw.svg" />
+        <div>
+            <img src="flame.png" />
+            <hgroup class="section__header-group">
+                <h1 class="section__header">Imagine 2018</h1>
+                <h4 class="section__subtext">a hackBCA event</h4>
+            </hgroup>
+        </div>
+        <aside class="prompt" id="js-prompt">
+            <span class="prompt__text">hackBCA V</span>
+            <img class="prompt__arrow" src="arrow.svg" />
+        </aside>
+    </section>
+    <section class="section section--white">
+        <div class="section__wrapper">
+            <div id="js-title">
+                <h1 class="section__title"></h1>
+            </div>
+            <figure id="js-hero">
+                <img class="section__hero__img" src="" />
+            </figure>
+
+        </div>
+        <div id="js-dots" class="section__dots"></div>
+        <div class="section__year__wrapper" id="js-year">
+            <h1 class="section__year">2014</h1>
+        </div>
+    </section>
+    <section class="section section--gray">
+        <hgroup>
+            <h1 class="section__text">More Information to Come</h1>
+            <form action="" method="">
+                <div class="btn-container">
+                    <input type="email" placeholder="Subscribe for Updates">
+                    <input type="submit" value="">
+                </div>
+            </form>'
+        </hgroup>
+        <footer>
+            <a id="fb" class="icon"></a>
+            <a id="twit" class="icon"></a>
+            <a id="snap" class="icon"></a>
+            <a id="ig" class="icon"></a>
+        </footer>
+        <aside class="prompt" id="js-prompt-2">
+            <img class="prompt__arrow--flipped" src="arrow.svg" />
+        </aside>
+    </section>
+    <script>
+        "use strict";
+
+        const prompt = document.querySelector("#js-prompt");
+        const slide2 = document.querySelectorAll(".section")[1];
+
+        prompt.onclick = () => {
+            slide2.scrollIntoView({ behavior: "smooth" });
+        }
+
+        const prompt2 = document.querySelector("#js-prompt-2");
+        const slide1 = document.querySelectorAll(".section")[0];
+
+        prompt2.onclick = () => {
+            slide1.scrollIntoView({ behavior: "smooth" });
+        }
+
+        const events = {
+            2014: {
+                name: "hackBCA I: Unleash The Next Generation",
+                image: "hero.png",
+            },
+            2015: {
+                name: "hackBCA I: Unleash The Next Generation",
+                image: "hero.png",
+            }
+        }
+
+        const dotContainer = document.querySelector("#js-dots");
+        const yearContainer = document.querySelector("#js-year");
+        const titleContainer = document.querySelector("#js-title");
+        const heroContainer = document.querySelector("#js-hero");
+
+        const transitionToYear = year => {
+            const oldYearEl = yearContainer.firstElementChild;
+            const newYearEl = document.createElement("h1");
+            newYearEl.innerHTML = year;
+            newYearEl.classList.add("section__year");
+            yearContainer.removeChild(oldYearEl);
+            yearContainer.appendChild(newYearEl);
+
+            const oldImage = heroContainer.firstElementChild;
+            const newImage = document.createElement("img");
+            newImage.src = events[year].image;
+
+            newImage.classList.add("section__hero__img");
+            heroContainer.removeChild(oldImage);
+            heroContainer.appendChild(newImage);
+
+            const oldTitle = titleContainer.firstElementChild;
+            const newTitle = document.createElement("h1");
+            newTitle.innerHTML = events[year].name;
+
+            newTitle.classList.add("section__title");
+            titleContainer.removeChild(oldTitle);
+            titleContainer.appendChild(newTitle);
+        };
+
+        const dots = []
+        for (const year of Object.keys(events)) {
+            const dot = document.createElement("div");
+            dot.classList.add("section__dot");
+            dot.dataset.year = year;
+            dots.push(dot);
+            dot.onclick = () => {
+                transitionToYear(year);
+                dots.filter(e => e !== dot).map(e => e.classList.remove("section__dot--active"));
+                dot.classList.add("section__dot--active");
+            }
+            dotContainer.appendChild(dot);
+        }
+        dots[0].classList.add("section__dot--active");
+
+        transitionToYear(2014);
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
