@@ -13,7 +13,7 @@
     <section id="galaxy" class="section">
         <img id="sw" src="sw.svg" />
         <div>
-            <img src="flame.png" />
+            <img class="no-show" src="flame.png" />
             <hgroup class="section__header-group">
                 <h1 class="section__header">Imagine 2018</h1>
                 <h4 class="section__subtext">a hackBCA event</h4>
@@ -24,20 +24,19 @@
             <img class="prompt__arrow" src="arrow.svg" />
         </aside>
     </section>
-    <section class="section section--white">
-        <div class="section__wrapper">
-            <div id="js-title">
-                <h1 class="section__title"></h1>
+    <section class="section section--white" id="js-scroll-jack">
+        <div>
+            <div class="section__title">
+                <div class="section__track-h" id="js-title"></div>
             </div>
-            <figure id="js-hero">
-                <img class="section__hero__img" src="" />
-            </figure>
-
+            <div class="section__img-container">
+                <div class="section__track-h" id="js-hero"></div>
+            </div>
+        </div>
+        <div class="section__year__wrapper">
+            <div class="section__track-v" id="js-year"></div>
         </div>
         <div id="js-dots" class="section__dots"></div>
-        <div class="section__year__wrapper" id="js-year">
-            <h1 class="section__year">2014</h1>
-        </div>
     </section>
     <section class="section section--gray">
         <hgroup>
@@ -59,9 +58,14 @@
             <img class="prompt__arrow--flipped" src="arrow.svg" />
         </aside>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
+    <script src="https://mamboleoo.be/learnThree/demos/OBJLoader.js"></script>
+    <script src="MTLLoader.js"></script>
+    <script src="app.js"></script>
     <script>
         "use strict";
-
+        // parallax 
+        // bg and torch (l and r)
         const prompt = document.querySelector("#js-prompt");
         const slide2 = document.querySelectorAll(".section")[1];
 
@@ -76,7 +80,7 @@
             slide1.scrollIntoView({ behavior: "smooth" });
         }
 
-        const events = {
+        var hackBCAEvents = {
             2014: {
                 name: "hackBCA I: Unleash The Next Generation",
                 image: "hero.png",
@@ -87,59 +91,76 @@
             }
         }
 
-        const dotContainer = document.querySelector("#js-dots");
-        const yearContainer = document.querySelector("#js-year");
-        const titleContainer = document.querySelector("#js-title");
-        const heroContainer = document.querySelector("#js-hero");
+        var scrollJack = document.querySelector("#js-scroll-jack");
+        var jsHero = document.querySelector("#js-hero");
+        var jsYear = document.querySelector("#js-year");
+        var jsTitle = document.querySelector("#js-title");
+        var jsDots = document.querySelector("#js-dots");
+        var p = 0, i, imgWidth = 800, yearHeight = 384, dots = [];
 
-        const transitionToYear = year => {
-            const oldYearEl = yearContainer.firstElementChild;
-            const newYearEl = document.createElement("h1");
-            newYearEl.innerHTML = year;
-            newYearEl.classList.add("section__year");
-            yearContainer.removeChild(oldYearEl);
-            yearContainer.appendChild(newYearEl);
+        function init() {
+            var keys = Object.keys(hackBCAEvents);
+            i = keys.length;
+            for (var _i in keys) {
+                var year = keys[_i];
+                var obj = hackBCAEvents[year];
 
-            const oldImage = heroContainer.firstElementChild;
-            const newImage = document.createElement("img");
-            newImage.src = events[year].image;
+                var img = document.createElement("img");
+                img.src = obj.image;
+                img.classList.add("section__img");
+                jsHero.appendChild(img);
 
-            newImage.classList.add("section__hero__img");
-            heroContainer.removeChild(oldImage);
-            heroContainer.appendChild(newImage);
+                var yEl = document.createElement("h1");
+                yEl.innerHTML = year;
+                yEl.classList.add("section__year");
+                jsYear.appendChild(yEl);
 
-            const oldTitle = titleContainer.firstElementChild;
-            const newTitle = document.createElement("h1");
-            newTitle.innerHTML = events[year].name;
+                var title = document.createElement("h2");
+                title.innerHTML = obj.name;
+                title.classList.add("section__title-text");
+                jsTitle.appendChild(title);
 
-            newTitle.classList.add("section__title");
-            titleContainer.removeChild(oldTitle);
-            titleContainer.appendChild(newTitle);
-        };
-
-        const dots = []
-        for (const year of Object.keys(events)) {
-            const dot = document.createElement("div");
-            dot.classList.add("section__dot");
-            dot.dataset.year = year;
-            dots.push(dot);
-            dot.onclick = () => {
-                transitionToYear(year);
-                dots.filter(e => e !== dot).map(e => e.classList.remove("section__dot--active"));
-                dot.classList.add("section__dot--active");
+                var dot = document.createElement("div");
+                dot.classList.add("section__dot");
+                dot.dataset.i = _i;
+                dots.push(dot);
+                jsDots.appendChild(dot);
             }
-            dotContainer.appendChild(dot);
         }
-        dots[0].classList.add("section__dot--active");
 
-        transitionToYear(2014);
+        init();
+
+        function mouseWheel(e) {
+            var dY = e.deltaY;
+            p += dY / scrollJack.clientWidth;
+            // add posiion fixed class
+            // and top property
+            if (p > 0 && p < 1) {
+                e.preventDefault();
+                p = Math.min(Math.max(p, 0), 1);
+                var _p1 = -p * imgWidth * (i - 1);
+                var _p2 = -p * yearHeight * (i - 1);
+                var _i = (p - .01) * i | 0, currDot;
+                for (var dot of dots) {
+                    if (dot.dataset.i == _i) {
+                        currDot = dot;
+                        break;
+                    }
+                }
+                var mP = p % (1 / i);
+                currDot.style.transform = "scale(" + (mP / 2 + .5) + ")";
+                jsHero.style.transform = "translateX(" + _p1 + "px)";
+                jsYear.style.transform = "translateY(" + _p2 + "px)";
+                jsTitle.style.transform = "translateX(" + _p1 + "px)";
+            } else {
+                p = Math.min(Math.max(p, 0), 1);
+                console.log(1);
+            }
+
+        }
 
 
-
-
-
-
-
+        window.addEventListener("mousewheel", mouseWheel, { passive: false });
     </script>
 </body>
 

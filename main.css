@@ -4,6 +4,14 @@
   --light-gray: #b1b1b1;
   --page-margin: 30px;
 }
+canvas {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+}
+.no-show {
+  visibility: hidden;
+}
 
 * {
   font-family: "Source Sans Pro";
@@ -225,6 +233,80 @@ footer {
 #snap {
   background-image: url("snap.png");
 }
+
+
+.section__img-container {
+  width: 800px;
+  height: 500px;
+  background-color: black;
+  overflow: hidden;
+}
+
+.section__track-h {
+  width: fit-content;
+  height: 100%;
+  display: flex;
+}
+
+.section__img {
+  display: block;
+  width: 800px;
+}
+
+.section__year {
+  color: var(--light-gray);
+  font-size: 12rem;
+  font-weight: 400;
+  line-height: 0.8;
+  margin: 0;
+  writing-mode: vertical-lr;
+  transform: translateY(0px);
+}
+.section__track-v {
+  width: 10rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.section__year__wrapper {
+  position: absolute;
+  overflow: hidden;
+  left: var(--page-margin);
+  bottom: var(--page-margin);
+  overflow: hidden;
+  width: fit-content;
+  height: 24rem;
+  transform: rotateY(180deg) rotateX(180deg);
+}
+.section__title {
+  width: 800px;
+  overflow: hidden;
+}
+.section__title-text {
+  width: 800px;
+  display: block;
+  text-align: center;
+}
+
+.section__dots {
+  display: flex;
+  flex-wrap: nowrap;
+  position: absolute;
+  bottom: var(--page-margin);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section__dot {
+  will-change: transform;
+  width: 10px;
+  height: 10px;
+  margin: 0 10px;
+  background-color: black;
+  border-radius: 50%;
+  transition: ease 0.2s;
+}
+
 
 @media only screen and (max-width: 600px) {
   .btn-container {
