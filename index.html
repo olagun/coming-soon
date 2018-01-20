@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link type="text/css" href="main.css" rel="stylesheet" />
+    <title>Imagine 2018</title>
+    <link type="text/css" href="css/main.css" rel="stylesheet" />
 </head>
 
 <body>
     <section id="galaxy" class="section">
-        <img id="sw" src="sw.svg" />
+        <img id="sw" src="assets/sw.svg" />
         <div>
-            <img class="no-show" src="flame.png" />
+            <img id="js-image-fallback" src="assets/flame.png" />
             <hgroup class="section__header-group">
                 <h1 class="section__header">Imagine 2018</h1>
                 <h4 class="section__subtext">a hackBCA event</h4>
@@ -21,7 +21,7 @@
         </div>
         <aside class="prompt" id="js-prompt">
             <span class="prompt__text">hackBCA V</span>
-            <img class="prompt__arrow" src="arrow.svg" />
+            <img class="prompt__arrow" src="assets/arrow.svg" />
         </aside>
     </section>
     <section class="section section--white" id="js-scroll-jack">
@@ -46,122 +46,30 @@
                     <input type="email" placeholder="Subscribe for Updates">
                     <input type="submit" value="">
                 </div>
-            </form>'
+            </form>
         </hgroup>
         <footer>
-            <a id="fb" class="icon"></a>
-            <a id="twit" class="icon"></a>
-            <a id="snap" class="icon"></a>
-            <a id="ig" class="icon"></a>
+            <a class="icon">
+                <img src="assets/icons/facebook.png" />
+            </a>
+            <a class="icon">
+                <img src="assets/icons/instagram.png" />
+            </a>
+            <a class="icon">
+                <img src="assets/icons/snapchat.png" />
+            </a>
+            <a class="icon">
+                <img src="assets/icons/twitter.png" />
+            </a>
         </footer>
         <aside class="prompt" id="js-prompt-2">
-            <img class="prompt__arrow--flipped" src="arrow.svg" />
+            <img class="prompt__arrow--flipped" src="assets/arrow.svg" />
         </aside>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
-    <script src="https://mamboleoo.be/learnThree/demos/OBJLoader.js"></script>
-    <script src="MTLLoader.js"></script>
-    <script src="app.js"></script>
-    <script>
-        "use strict";
-        // parallax 
-        // bg and torch (l and r)
-        const prompt = document.querySelector("#js-prompt");
-        const slide2 = document.querySelectorAll(".section")[1];
-
-        prompt.onclick = () => {
-            slide2.scrollIntoView({ behavior: "smooth" });
-        }
-
-        const prompt2 = document.querySelector("#js-prompt-2");
-        const slide1 = document.querySelectorAll(".section")[0];
-
-        prompt2.onclick = () => {
-            slide1.scrollIntoView({ behavior: "smooth" });
-        }
-
-        var hackBCAEvents = {
-            2014: {
-                name: "hackBCA I: Unleash The Next Generation",
-                image: "hero.png",
-            },
-            2015: {
-                name: "hackBCA I: Unleash The Next Generation",
-                image: "hero.png",
-            }
-        }
-
-        var scrollJack = document.querySelector("#js-scroll-jack");
-        var jsHero = document.querySelector("#js-hero");
-        var jsYear = document.querySelector("#js-year");
-        var jsTitle = document.querySelector("#js-title");
-        var jsDots = document.querySelector("#js-dots");
-        var p = 0, i, imgWidth = 800, yearHeight = 384, dots = [];
-
-        function init() {
-            var keys = Object.keys(hackBCAEvents);
-            i = keys.length;
-            for (var _i in keys) {
-                var year = keys[_i];
-                var obj = hackBCAEvents[year];
-
-                var img = document.createElement("img");
-                img.src = obj.image;
-                img.classList.add("section__img");
-                jsHero.appendChild(img);
-
-                var yEl = document.createElement("h1");
-                yEl.innerHTML = year;
-                yEl.classList.add("section__year");
-                jsYear.appendChild(yEl);
-
-                var title = document.createElement("h2");
-                title.innerHTML = obj.name;
-                title.classList.add("section__title-text");
-                jsTitle.appendChild(title);
-
-                var dot = document.createElement("div");
-                dot.classList.add("section__dot");
-                dot.dataset.i = _i;
-                dots.push(dot);
-                jsDots.appendChild(dot);
-            }
-        }
-
-        init();
-
-        function mouseWheel(e) {
-            var dY = e.deltaY;
-            p += dY / scrollJack.clientWidth;
-            // add posiion fixed class
-            // and top property
-            if (p > 0 && p < 1) {
-                e.preventDefault();
-                p = Math.min(Math.max(p, 0), 1);
-                var _p1 = -p * imgWidth * (i - 1);
-                var _p2 = -p * yearHeight * (i - 1);
-                var _i = (p - .01) * i | 0, currDot;
-                for (var dot of dots) {
-                    if (dot.dataset.i == _i) {
-                        currDot = dot;
-                        break;
-                    }
-                }
-                var mP = p % (1 / i);
-                currDot.style.transform = "scale(" + (mP / 2 + .5) + ")";
-                jsHero.style.transform = "translateX(" + _p1 + "px)";
-                jsYear.style.transform = "translateY(" + _p2 + "px)";
-                jsTitle.style.transform = "translateX(" + _p1 + "px)";
-            } else {
-                p = Math.min(Math.max(p, 0), 1);
-                console.log(1);
-            }
-
-        }
-
-
-        window.addEventListener("mousewheel", mouseWheel, { passive: false });
-    </script>
+    <script src="js/OBJLoader.js"></script>
+    <script src="js/MTLLoader.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
