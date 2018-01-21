@@ -36,7 +36,7 @@ Form
 
 */
 
-input[type="submit"] {
+.submit-text {
   display: block;
   margin: 10px 0;
   background-color: white;
@@ -378,7 +378,7 @@ footer {
   .form__item {
     width: 360px;
   }
-  input[type="submit"] {
+  .submit-text {
     width: 360px;
   }
 
