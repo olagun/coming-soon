@@ -1,18 +1,37 @@
 "use strict";
 
-// parallax
-// bg and torch (l and r)
+let p = 0,
+  imgW = 800,
+  yearH = 384;
 
-// if (matchMedia("(max-width: 400px)").matches);
+if (matchMedia("(max-width: 800px)").matches) {
+  imgW = 400;
+}
 
 const prompt = document.querySelector("#js-prompt");
 const prompt2 = document.querySelector("#js-prompt-2");
-const section1 = document.querySelector("section")[0];
+const section1 = document.querySelectorAll("section")[0];
 const scrollJack = document.querySelector("#js-scroll-jack");
 const jsHero = document.querySelector("#js-hero");
 const jsYear = document.querySelector("#js-year");
 const jsTitle = document.querySelector("#js-title");
 const jsDots = document.querySelector("#js-dots");
+const fallbackImage = document.querySelector("#js-image-fallback");
+
+const midPageX = window.innerWidth / 2;
+const midPageY = window.innerHeight / 2;
+const scale = 5; // percentage for parallax
+
+section1.onmousemove = ({ pageX: x, pageY: y }) => {
+  const diffX = midPageX - x;
+  const diffY = midPageY - y;
+  const pX = diffX / midPageX;
+  const pY = diffY / midPageY;
+
+  fallbackImage.style.transform =
+    "translate(" + pX * -scale + "%, " + pY * -scale + "%)";
+  section1.style.backgroundPosition = -pX * scale + "% " + -pY * scale + "%";
+};
 
 prompt.onclick = () => {
   scrollJack.scrollIntoView({ behavior: "smooth" });
@@ -75,10 +94,7 @@ for (const k in keys) {
   jsDots.appendChild(dotEl);
 }
 
-let p = 0;
 const dots = jsDots.children;
-const imgW = 800;
-const yearH = 384;
 const dotMinScale = 0.5;
 
 const renderCarousel = (p, actualP) => {
@@ -98,43 +114,10 @@ const renderCarousel = (p, actualP) => {
   }
 
   currDot.style.transform =
-    "scale(" +
-    (dotMinScale + ((actualP % (1 / i)) * i * dotMinScale)) +
-    ")";
+    "scale(" + (dotMinScale + (actualP % (1 / i)) * i * dotMinScale) + ")";
   jsHero.style.transform = "translateX(" + imgP + "px)";
   jsYear.style.transform = "translateY(" + yearP + "px)";
   jsTitle.style.transform = "translateX(" + imgP + "px)";
-};
-
-const animate = ({ callback, lerp, from = 0, to = 1, duration = 1 }) => {
-  const startTime = new Date();
-  duration *= 1000;
-  const _animate = () => {
-    const diff = new Date() - startTime;
-    const _p = diff / duration;
-    if (_p < 1) {
-      requestAnimationFrame(_animate);
-      callback((p = lerp(from + _p * (to - from))), from + _p * (to - from));
-    } else {
-      callback((p = to), to);
-    }
-  };
-  requestAnimationFrame(_animate);
-};
-
-const snapCarousel = toIndex => {
-  const index = toIndex || (p / (1 / i)) | 0;
-  const newP = 1 / (i - 1) * index;
-
-  const cubic = t => t;
-
-  animate({
-    callback: renderCarousel,
-    lerp: cubic,
-    from: p,
-    to: newP,
-    duration: 0.5
-  });
 };
 
 const _handleMouseWheel = e => {
@@ -174,13 +157,10 @@ scrollJack.addEventListener("wheel", _handleMouseWheel, {
   passive: false
 });
 
-scrollJack.addEventListener("mouseup", snapCarousel);
-
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("webgl");
 
 if (ctx) {
-  const fallbackImage = document.querySelector("#js-image-fallback");
   fallbackImage.style.visibility = "hidden";
 
   var rotateAngle = Math.PI / 2 * delta; // pi/2 radians (90 degrees) per second
