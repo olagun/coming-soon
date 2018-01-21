@@ -1,5 +1,36 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
 
+.hide {
+  display: none !important;
+}
+
+#success img {
+  height: 26px;
+  padding: 0;
+  padding-right: 20px;
+  margin: 0;
+
+}
+
+#success {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding: 10px;
+  background-color: #33b735;
+  color: white;
+  font-size: 16px;
+}
+
+#success span {
+  font-size: 16px;
+  vertical-align: middle;
+}
+
 /*
 
 Variables & Defaults
