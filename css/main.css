@@ -169,6 +169,7 @@ Section
 }
 
 .section__track-h {
+  will-change: transform;
   width: fit-content;
   height: 100%;
   display: flex;
@@ -186,9 +187,9 @@ Section
   line-height: 0.8;
   margin: 0;
   writing-mode: vertical-lr;
-  transform: translateY(0px);
 }
 .section__track-v {
+  will-change: transform;
   width: 10rem;
   height: 100vh;
   display: flex;

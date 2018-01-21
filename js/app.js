@@ -23,14 +23,21 @@ prompt2.onclick = () => {
 };
 
 // Carousel Model
+const path = "assets/images/hackbca_";
+const extension = ".jpg";
+
 const carouselModel = {
   2014: {
-    name: "hackBCA I: Unleash The Next Generation",
-    image: "assets/hero.png"
+    name: "hackBCA I"
   },
   2015: {
-    name: "hackBCA I: Unleash The Next Generation",
-    image: "assets/hero.png"
+    name: "hackBCA II"
+  },
+  2016: {
+    name: "hackBCA III"
+  },
+  2017: {
+    name: "hackBCA IV"
   }
 };
 
@@ -40,10 +47,11 @@ const i = keys.length;
 for (const k in keys) {
   const year = keys[k];
   const event = carouselModel[year];
+  const image = path + year + extension;
 
   // Create image element.
   const imgEl = document.createElement("img");
-  imgEl.src = event.image;
+  imgEl.src = image;
   imgEl.classList.add("section__img");
   jsHero.appendChild(imgEl);
 
@@ -63,6 +71,7 @@ for (const k in keys) {
   dotEl.classList.add("section__dot");
   // Dot index.
   dotEl.dataset.i = k;
+  // dotEl.onclick = () => snapCarousel(k);
   jsDots.appendChild(dotEl);
 }
 
@@ -72,52 +81,100 @@ const imgW = 800;
 const yearH = 384;
 const dotMinScale = 0.5;
 
-const _handleMouseWheel = e => {
-  scrollJack.scrollIntoView({ behavior: "smooth" });
+const renderCarousel = (p, actualP) => {
+  actualP = actualP || p;
 
+  // Translate percentage.
+  const imgP = (-p * (i - 1) * imgW) | 0;
+  const yearP = (-p * (i - 1) * yearH) | 0;
+  const index = (actualP / (1 / i) - 0.05) | 0;
+
+  let currDot;
+  for (const dot of dots) {
+    if (dot.dataset.i == index) {
+      currDot = dot;
+      break;
+    }
+  }
+
+  currDot.style.transform =
+    "scale(" +
+    (dotMinScale + ((actualP % (1 / i)) * i * dotMinScale)) +
+    ")";
+  jsHero.style.transform = "translateX(" + imgP + "px)";
+  jsYear.style.transform = "translateY(" + yearP + "px)";
+  jsTitle.style.transform = "translateX(" + imgP + "px)";
+};
+
+const animate = ({ callback, lerp, from = 0, to = 1, duration = 1 }) => {
+  const startTime = new Date();
+  duration *= 1000;
+  const _animate = () => {
+    const diff = new Date() - startTime;
+    const _p = diff / duration;
+    if (_p < 1) {
+      requestAnimationFrame(_animate);
+      callback((p = lerp(from + _p * (to - from))), from + _p * (to - from));
+    } else {
+      callback((p = to), to);
+    }
+  };
+  requestAnimationFrame(_animate);
+};
+
+const snapCarousel = toIndex => {
+  const index = toIndex || (p / (1 / i)) | 0;
+  const newP = 1 / (i - 1) * index;
+
+  const cubic = t => t;
+
+  animate({
+    callback: renderCarousel,
+    lerp: cubic,
+    from: p,
+    to: newP,
+    duration: 0.5
+  });
+};
+
+const _handleMouseWheel = e => {
   const { top } = scrollJack.getBoundingClientRect();
   const EPSILON = 300;
 
   if (Math.abs(top) <= EPSILON) {
+    // ON SCROLL END, SNAP
+    scrollJack.scrollIntoView({ behavior: "smooth" });
+
     // Clamp percentage.
     p = Math.min(Math.max(p, 0), 1);
 
     // Add scroll percentage relative to container.
-    p += e.deltaY / scrollJack.clientWidth;
+    let d = e.deltaY;
+    // if (e.wheelDelta < 0) {
+    //   d = Math.max(e.deltaY, e.deltaX);
+    // } else {
+    //   d = Math.min(e.deltaY, e.deltaX);
+    // }
+
+    p += d / scrollJack.clientWidth;
 
     // add posiion fixed class
     // and top property
 
     if (p >= 0 && p <= 1) {
       e.preventDefault();
-
-      // Translate percentage.
-      const imgP = (-p * (i - 1) * imgW) | 0;
-      const yearP = (-p * (i - 1) * yearH) | 0;
-      const index = (p / (1 / i)) | 0;
-
-      let currDot;
-      for (const dot of dots) {
-        if (dot.dataset.i == index) {
-          currDot = dot;
-          break;
-        }
-      }
-
-      currDot.style.transform =
-        "scale(" +
-        (dotMinScale + (dotMinScale - (p % (1 / i)) * i * dotMinScale)) +
-        ")";
-      jsHero.style.transform = "translateX(" + imgP + "px)";
-      jsYear.style.transform = "translateY(" + yearP + "px)";
-      jsTitle.style.transform = "translateX(" + imgP + "px)";
+      renderCarousel(p);
+    } else {
+      // snapCarousel();
     }
   }
 };
 
-scrollJack.addEventListener("mousewheel", _handleMouseWheel, {
+scrollJack.addEventListener("wheel", _handleMouseWheel, {
   passive: false
 });
+
+scrollJack.addEventListener("mouseup", snapCarousel);
 
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("webgl");
