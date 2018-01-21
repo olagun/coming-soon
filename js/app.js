@@ -161,6 +161,11 @@ const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("webgl");
 
 if (ctx) {
+  var clock = new THREE.Clock();
+  var delta = clock.getDelta(); // seconds.
+  var rotateAngle = Math.PI / 2 * delta; // pi/2 radians (90 degrees) per second
+  var container, stats;
+
   fallbackImage.style.visibility = "hidden";
 
   var rotateAngle = Math.PI / 2 * delta; // pi/2 radians (90 degrees) per second
