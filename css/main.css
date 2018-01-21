@@ -1,6 +1,4 @@
-.no-show {
-  visibility: hidden;
-}
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
 /*
 
@@ -66,7 +64,7 @@ Section
 }
 
 #galaxy {
-  background: url(assets/galaxy.png);
+  background: url(/assets/galaxy.png);
   background-size: cover;
 }
 
@@ -284,7 +282,7 @@ Prompt
 
 .btn-container input[type="submit"] {
   flex: 1;
-  background: url(arrow_alt.svg);
+  background: url(/assets/arrow_alt.svg);
   background-repeat: no-repeat;
   background-position: center center;
   outline: none;
