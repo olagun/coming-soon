@@ -32,6 +32,49 @@ canvas {
 
 /*
 
+Form 
+
+*/
+
+input[type="submit"] {
+  display: block;
+  margin: 10px 0;
+  background-color: white;
+  box-shadow: 0 2px 4px 2px rgba(255, 255, 255, 0.5);
+  padding: 10px 20px;
+  height: 60px;
+  width: 600px;
+  font-size: 23px;
+  color: black;
+  outline: none;
+  border: none;
+}
+
+.form__item {
+  display: block;
+  margin: 10px 0;
+  background-color: white;
+  box-shadow: 0 2px 4px 2px rgba(255, 255, 255, 0.5);
+  padding: 10px 20px;
+  height: 60px;
+  width: 600px;
+  font-size: 23px;
+  color: black;
+  outline: none;
+  border: none;
+}
+
+textarea.form__item {
+  min-height: 250px;
+}
+
+.form__item label {
+  text-transform: uppercase;
+  display: block;
+}
+
+/*
+
 Icons
 
 */
@@ -52,6 +95,15 @@ Icons
 Section 
 
 */
+
+.section--padding {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
 
 .section {
   width: 100vw;
@@ -282,7 +334,7 @@ Prompt
   flex: 5;
   padding: 10px 20px;
   font-size: 23px;
-  color: #c5c5c5;
+  color: gray;
   outline: none;
   border: none;
 }
@@ -322,13 +374,18 @@ footer {
   justify-content: center;
 }
 
-@media only screen and (max-width: 600px) {
-  .btn-container {
-    width: 400px;
-  }
-}
-
 @media only screen and (max-width: 800px) {
+  .form__item {
+    width: 360px;
+  }
+  input[type="submit"] {
+    width: 360px;
+  }
+
+  .btn-container {
+    width: 360px;
+    margin: auto;
+  }
   .section__img-container {
     width: 400px;
     /* height: 500px; */
@@ -345,7 +402,7 @@ footer {
     display: block;
     text-align: center;
   }
-  
+
   .section__img {
     display: block;
     width: 100%;
