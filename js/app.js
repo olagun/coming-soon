@@ -11,7 +11,7 @@ if (matchMedia("(max-width: 800px)").matches) {
 const prompt = document.querySelector("#js-prompt");
 const prompt2 = document.querySelector("#js-prompt-2");
 const section1 = document.querySelectorAll("section")[0];
-const scrollJack = document.querySelector("#js-scroll-jack");
+const scrollJack = document.querySelector("#slick-slider-div");
 const jsHero = document.querySelector("#js-hero");
 const jsYear = document.querySelector("#js-year");
 const jsTitle = document.querySelector("#js-title");
@@ -150,22 +150,20 @@ $(document).ready(function(){
   $('.slider').slick({
   dots: true,
   swipeToSlide: true,
-  infinite: true,
   arrows: false,
-  autoplay: true,
-  speed: 700,
   fade: true,
   cssEase: 'linear'
 });
-
-  $( ".slider" ).scroll(function() {
-    
-  });
 });
   
 
 document.getElementById("slick-slider-div").addEventListener("wheel", myFunction);
 
 function myFunction() {
-    $('.slider').slick('slickNext');
+    if ($('.slider').slick('slickCurrentSlide') == 3) {
+      window.onwheel = function(){ return true; }
+    } else {
+      window.onwheel = function(){ return false; }
+      $('.slider').slick('slickNext');
+    }
 }

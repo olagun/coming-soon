@@ -513,8 +513,9 @@ Slick Slider Div
 }
 
 .slick-slider-div {
-    padding: 20px 60px 30px 0px;
+    padding: 6vh 60px 30px 0px;
     background: white;
+    height: 100vh;
 }
 
 .slick-dots li button:before {
