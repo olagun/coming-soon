@@ -81,22 +81,17 @@ if (ctx) {
 
     scene = new THREE.Scene();
 
-    var keyLight = new THREE.DirectionalLight(
-      new THREE.Color("hsl(30, 100%, 75%)"),
-      1.0
-    );
-    keyLight.position.set(-100, 0, 100);
-
-    var fillLight = new THREE.DirectionalLight(
-      new THREE.Color("hsl(240, 100%, 75%)"),
-      0.75
-    );
-    fillLight.position.set(100, 0, 100);
-
-    var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    backLight.position.set(100, 0, -100).normalize();
-
-    scene.add(backLight);
+    // var backLight = new THREE.DirectionalLightx(0xffffff, .6);
+    // backLight.position.set(100, 0, -100).normalize();
+    // backLight.castShadow = true;
+    // var backLight1 = new THREE.DirectionalLight(0xffffff, .6);
+    // backLight1.position.set(-100, 0, -100).normalize();
+    // backLight1.castShadow = true;
+    // var light = new THREE.PointLight( 0x000000, 1, 100 );
+    // light.position.set( 50, 50, 50 );
+    // scene.add( light );
+    // scene.add(backLight);
+    // scene.add(backLight1);
 
     // texture
     var loader = new THREE.ObjectLoader();
@@ -104,6 +99,7 @@ if (ctx) {
     loader.load("assets/obj/torch.json", function(object) {
       object.position.x = -45;
       object.position.y = -90;
+      object.rotation.x = -1.6;
       object.scale.x = 20;
       object.scale.y = 20;
       object.scale.z = 20;
@@ -111,8 +107,9 @@ if (ctx) {
     });
 
     renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth * 2, window.innerHeight * 2);
     container.appendChild(renderer.domElement);
+
 
     document.addEventListener("mousemove", onDocumentMouseMove, false);
 
