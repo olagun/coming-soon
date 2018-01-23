@@ -43,7 +43,8 @@ Variables & Defaults
 }
 
 * {
-  font-family: "Source Sans Pro";
+  font-family: "din-2014", "Source Sans Pro";
+  font-weight: 300;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
 }
@@ -244,7 +245,7 @@ Section
   text-transform: uppercase;
   font-weight: 400;
   text-align: center;
-  width: 60%;
+  width: 100%;
   margin: auto;
   margin-bottom: 30px;
   font-size: 30px;
@@ -508,8 +509,8 @@ Slick Slider Div
 }
 .slider-image .title {
     text-align: center;
-    font-size: 1.35rem;
-    font-weight: 500;
+    font-family: europa;
+    font-size: 2rem;
 }
 
 .slick-slider-div {
