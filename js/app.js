@@ -149,6 +149,7 @@ if (ctx) {
 $(document).ready(function(){
   $('.slider').slick({
   dots: true,
+  swipeToSlide: true,
   infinite: true,
   arrows: false,
   autoplay: true,
@@ -156,5 +157,15 @@ $(document).ready(function(){
   fade: true,
   cssEase: 'linear'
 });
+
+  $( ".slider" ).scroll(function() {
+    
+  });
 });
   
+
+document.getElementById("slick-slider-div").addEventListener("wheel", myFunction);
+
+function myFunction() {
+    $('.slider').slick('slickNext');
+}
